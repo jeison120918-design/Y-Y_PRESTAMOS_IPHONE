@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Flutter reemplaza este placeholder durante `flutter build web --base-href ...`.
+         Es obligatorio para que la app funcione correctamente en GitHub Pages
+         cuando se publica dentro de /<repo>/. -->
+    <base href="$FLUTTER_BASE_HREF">
+
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="Y&amp;Y Prestamos - Sistema de control de prestamos, clientes y cuotas.">
+
+    <!-- Viewport: viewport-fit=cover permite usar SafeArea en el notch/home
+         indicator de iPhone cuando la app corre en modo standalone (PWA). -->
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <!-- ===================== iOS / Safari (Añadir a inicio) ===================== -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Y&amp;Y Prestamos">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+    <!-- ===================== Android / Chrome ===================== -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0D1B33">
+
+    <title>Y&amp;Y Prestamos</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="favicon.png"/>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #0D1B33;
+        }
+
+        /* Pantalla de carga mostrada mientras el motor Flutter se inicializa. */
+        #splash {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #0D1B33;
+            z-index: 9999;
+        }
+
+        #splash img {
+            width: 42vw;
+            max-width: 220px;
+            margin-bottom: 24px;
+            animation: yy-pulse 1.6s ease-in-out infinite;
+        }
+
+        #splash .yy-spinner {
+            width: 34px;
+            height: 34px;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-top-color: #2E9E3A;
+            border-radius: 50%;
+            animation: yy-spin 0.9s linear infinite;
+        }
+
+        @keyframes yy-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes yy-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        #splash.yy-hidden {
+            opacity: 0;
+            transition: opacity 0.35s ease-out;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de carga nativa (HTML puro) visible antes de que Flutter
+         termine de arrancar. Se oculta automaticamente en main.dart una vez
+         que el primer frame de la app ya se pinto. -->
+    <div id="splash">
+        <img src="icons/Icon-512.png" alt="Y&amp;Y Prestamos" />
+        <div class="yy-spinner"></div>
+    </div>
+
+<script src="flutter_bootstrap.js" async></script>
+    <script>
+        window.addEventListener('flutter-first-frame', function () {
+            var splash = document.getElementById('splash');
+            if (splash) {
+                splash.classList.add('yy-hidden');
+                setTimeout(function () { splash.remove(); }, 400);
+            }
+        });
+
+        // ===================== PERSISTENCIA DE DATOS (iPhone/Safari) =====================
+        // Por defecto, el almacenamiento (IndexedDB, donde vive la base de datos
+        // de la app) es "best-effort": iOS/Safari puede borrarlo bajo presion de
+        // espacio o inactividad. navigator.storage.persist() le pide al navegador
+        // que NO borre estos datos automaticamente (Safari respeta esta API desde
+        // iOS 16+). No requiere permiso visible al usuario en Safari/PWA instalada.
+        if (navigator.storage && navigator.storage.persist) {
+            navigator.storage.persist().then(function (persistido) {
+                console.log(persistido
+                    ? '[YY] Almacenamiento persistente concedido: los datos no se borraran automaticamente.'
+                    : '[YY] Almacenamiento persistente NO concedido por el navegador.');
+            }).catch(function (e) {
+                console.warn('[YY] No se pudo solicitar almacenamiento persistente:', e);
+            });
+        }
+    </script>
+</body>
+</html>

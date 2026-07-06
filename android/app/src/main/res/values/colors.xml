@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fondo del ícono adaptativo Y&Y PRESTAMOS: azul marino oficial -->
+    <color name="ic_launcher_background">#0D1B33</color>
+    <color name="yy_azul_principal">#1A3A6B</color>
+    <color name="yy_azul_oscuro">#0D1B33</color>
+    <color name="yy_verde_principal">#2E9E3A</color>
+    <color name="yy_dorado">#FFC107</color>
+</resources>

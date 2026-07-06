@@ -1,0 +1,64 @@
+# =========================================================
+#  Codemagic CI/CD - Y&Y PRESTAMOS
+#  Compilación 100 % lista para Android (APK + AAB) y opción debug.
+# =========================================================
+workflows:
+  yy-prestamos-android:
+    name: Y&Y Prestamos - Android Release
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      java: 17
+      vars:
+        # Nada sensible aquí. Firma se hace con debug keystore por defecto.
+        APP_NAME: "Y&Y Prestamos"
+    scripts:
+      - name: Mostrar entorno
+        script: |
+          flutter --version
+          java -version
+          echo "Gradle wrapper distribution:"
+          cat android/gradle/wrapper/gradle-wrapper.properties | grep distributionUrl
+      - name: Limpiar caché
+        script: |
+          flutter clean
+      - name: Obtener dependencias
+        script: |
+          flutter pub get
+      - name: Análisis estático (no bloqueante)
+        script: |
+          flutter analyze || true
+      - name: Compilar APK release
+        script: |
+          flutter build apk --release --no-tree-shake-icons
+      - name: Compilar App Bundle release
+        script: |
+          flutter build appbundle --release --no-tree-shake-icons
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/release/*.aab
+      - build/app/outputs/mapping/release/mapping.txt
+    publishing:
+      email:
+        recipients:
+          - jfbsystem@example.com
+        notify:
+          success: false
+          failure: true
+
+  yy-prestamos-android-debug:
+    name: Y&Y Prestamos - Android Debug
+    max_build_duration: 30
+    environment:
+      flutter: stable
+      java: 17
+    scripts:
+      - name: Preparar
+        script: |
+          flutter clean
+          flutter pub get
+      - name: Compilar APK debug
+        script: |
+          flutter build apk --debug --no-tree-shake-icons
+    artifacts:
+      - build/app/outputs/flutter-apk/app-debug.apk

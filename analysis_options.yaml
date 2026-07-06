@@ -1,0 +1,22 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # Convertir a warning para que no bloqueen la compilación en Codemagic
+    invalid_annotation_target: ignore
+    unused_import: warning
+    unused_local_variable: warning
+    unused_field: warning
+    unused_element: warning
+    deprecated_member_use: warning
+    deprecated_member_use_from_same_package: warning
+
+linter:
+  rules:
+    avoid_print: false
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: false
+    use_key_in_widget_constructors: false
+    use_super_parameters: false
+    sort_child_properties_last: false
+    library_private_types_in_public_api: false

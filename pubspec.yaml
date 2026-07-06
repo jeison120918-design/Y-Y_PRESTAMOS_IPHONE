@@ -1,0 +1,51 @@
+name: andry_prestamos
+description: Sistema de control de prestamos tipo SAN para Y&Y PRESTAMOS.
+publish_to: 'none'
+version: 2.2.1+6
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  sqflite: ^2.3.0
+  # Backend web para sqflite (usa sqlite3.wasm + IndexedDB). Necesario porque
+  # sqflite NO tiene soporte Web nativo.
+  sqflite_common_ffi_web: ^0.4.5
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  intl: ^0.20.2
+  share_plus: ^10.1.4
+  url_launcher: ^6.2.2
+
+  # Generacion de PDF (recibos / detalle de prestamo) - 100% compatible Web
+  pdf: ^3.10.8
+  printing: ^5.12.0
+
+  # Import/Export JSON de clientes (soporta Web mediante bytes)
+  file_picker: ^8.1.2
+
+  # NOTA (migracion iPhone/Web v2.2.1):
+  # Se eliminaron las siguientes dependencias porque NO son compatibles con
+  # Flutter Web / Safari y dependian de Bluetooth nativo (Android only):
+  #   - print_bluetooth_thermal (impresion termica Bluetooth)
+  #   - esc_pos_utils_plus (generacion de tickets ESC/POS)
+  #   - image (solo se usaba para decodificar el logo del ticket ESC/POS)
+  #   - permission_handler (solo se usaba para permisos BLUETOOTH_CONNECT/SCAN)
+  # La impresion ahora se resuelve 100% via PDF (paquetes pdf + printing),
+  # que si funcionan en Web (descarga / dialogo de impresion del navegador).
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/yy_logo.png
+    - assets/images/yy_logo_small.png
+    - assets/images/yy_logo_bw.png
